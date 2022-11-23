@@ -1,1 +1,0 @@
-# sunminmgyan.github.io
