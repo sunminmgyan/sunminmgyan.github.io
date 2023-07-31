@@ -1,0 +1,168 @@
+I"YU<p>​	The RBG-Maxwell framework exhibits a significant level of adaptability and offers a vast array of user-defined parameters, rendering it proficient in facilitating a wide range of plasma simulations.</p>
+
+<p>​	This section presents an introduction to the parameters employed in the RGB-Maxwell program.</p>
+
+<ul>
+  <li>Differential parameters</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dx, dy, dz:       
+		Infinitesimal differences used in the spatial domain. 
+		e.g. dx = dy = dz = 10**(-5)
+dpx, dpy, dpz:    
+		Infinitesimal difference in momentum domain
+	    e.g. dpx = dpy = dpz = 10**(-25)
+dx_o, dy_o, dz_o: 
+		Infinitesimal difference of the spatial coordinates in the observation region
+		e.g. dx_o, dy_o, dz_o = [dx]*number_regions, [dy]*number_regions, [dz]*number_regions
+dt :              
+		The infinitesimal time for each time step updation.
+	    e.g. dt = 10**(-13)
+n_step:
+		number of total time steps
+		e.g. n_step = 10001
+drift_order:
+        order of drift terms in upwind scheme
+		e.g. drift_order = 2
+num_samples:
+		number samples gives the number of sample points in MC integration
+		e.g. num_samples = 100
+</code></pre></div></div>
+
+<ul>
+  <li>Grid parameters</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nx, ny, nz:        
+		Number of spatial grids.
+		e.g. nx = ny = nz = 101
+npx, npy, npz:     
+		Number of momentum grids.
+		e.g. npx, npy, npz = 3, 4, 5
+nx_o, ny_o, nz_o:  
+		Number of spatial grids in the observation region.
+		e.g. nx_o, ny_o, nz_o = [nx], [ny], [nz]
+
+</code></pre></div></div>
+
+<ul>
+  <li>Boundary parameters</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x_left_bound_o, y_left_bound_o, z_left_bound_o:
+        the left boundaries of the spatial sub-region in the observation region.
+        e.g. x_left_bound_o, y_left_bound_o, z_left_bound_o = \
+			((np.array([19, 19, 19, 19, 0, 0, 0, 0])*12/40-6)/0.197).tolist(),\
+			((np.array([0, 19, 0, 19, 0, 19, 0, 19])*12/40-6)/0.197).tolist(),\
+			((np.array([19, 19, 0, 0, 19, 19, 0, 0])*12/40-6)/0.197).tolist()
+half_px, half_py, half_pz:
+            Three lists of the momentum length in x,y and z directions.
+            e.g. half_px, half_py, half_pz = np.array([-px_left_bound]*7), \
+				 np.array([-py_left_bound]*7), np.array([-pz_left_bound]*7) 
+x_bound_config, y_bound_config, z_bound_config:
+            configuretions of the boundary conditions. 
+            x_bound_config is of shape [ny, nz, 2]
+            y_bound_config is of shape [nx, nz, 2]
+            z_bound_config is of shape [nx, ny, 2]				 
+</code></pre></div></div>
+
+<ul>
+  <li>Particle parameters</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f:				 
+		Distribution functions in different spatial regions.
+		e.g. f = [momentum_levels, particle_species, nx*ny*nz*npx*npy*npz].
+particle_type:  
+		List of particle types for each particle species.
+		e.g. particle_type = [1,1,1,1,1,1,2]
+masses:          
+		List of masses for each particle species.
+		e.g. masses = np.array([0.3,0.3,0.5,0.3,0.3,0.5,0.5],dtype=np.float64)
+charges:         
+		List of charges for each particle species.
+		e.g. charges = np.array([unit_charge*2/3,-unit_charge/3,-unit_charge/3,\
+                    -unit_charge*2/3,unit_charge/3,unit_charge/3, 0.],dtype=np.float64)
+degeneracy:      
+		List of degenaracies for each particle species.
+		e.g. degeneracy = np.array([6.,6.,6.,6.,6.,6.,16.])
+</code></pre></div></div>
+
+<ul>
+  <li>Region parameters</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num_gpus_for_each_region</span><span class="p">:</span>
+    	<span class="n">each</span> <span class="n">spatial</span> <span class="n">should</span> <span class="n">use</span> <span class="n">the</span> <span class="n">full</span> <span class="n">GPU</span><span class="p">,</span> <span class="n">this</span> <span class="n">number</span> <span class="n">can</span> <span class="n">be</span> <span class="n">fractional</span> <span class="k">if</span> <span class="n">many</span> <span class="n">regions</span> <span class="n">are</span> <span class="n">chosen</span> <span class="ow">and</span> <span class="n">only</span> <span class="n">one</span> <span class="n">GPU</span> <span class="ow">is</span> <span class="n">available</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">num_gpus_for_each_region</span> <span class="o">=</span> <span class="mf">1.</span>
+<span class="n">region_id</span><span class="p">:</span>
+		<span class="n">the</span> <span class="n">index</span> <span class="n">of</span> <span class="n">the</span> <span class="n">current</span> <span class="n">spatial</span> <span class="n">region</span><span class="p">,</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">region_id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">number_regions</span><span class="p">:</span> 
+        <span class="n">total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">spatial</span> <span class="n">regions</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">number_regions</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">sub_region_relations</span><span class="p">:</span>
+        <span class="n">Dictionary</span> <span class="n">of</span> <span class="n">the</span> <span class="n">relative</span> <span class="n">locations</span> <span class="n">amongest</span> <span class="n">the</span> <span class="n">sub</span><span class="o">-</span><span class="n">regions</span><span class="p">.</span>
+        <span class="n">key</span><span class="p">:</span> <span class="s">'indicator'</span> <span class="n">gives</span> <span class="n">the</span> <span class="n">index</span> <span class="n">of</span> <span class="n">surfaces</span> <span class="n">to</span> <span class="n">be</span> <span class="n">exchanged</span><span class="p">.</span>
+        <span class="n">key</span><span class="p">:</span> <span class="s">'position'</span> <span class="n">gives</span> <span class="n">the</span> <span class="n">relative</span> <span class="n">positions</span> <span class="n">between</span> <span class="n">the</span> <span class="n">regions</span><span class="p">.</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">sub_region_relations</span> <span class="o">=</span> \
+        <span class="p">{</span><span class="s">'indicator'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span>\
+                       <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">]],</span>\
+         <span class="s">'position'</span><span class="p">:</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>    <span class="mi">3</span><span class="p">,</span>    <span class="mi">4</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>    <span class="mi">6</span><span class="p">,</span>    <span class="mi">7</span><span class="p">],</span>\     <span class="o">-----</span><span class="n">base</span>
+                      <span class="p">[</span><span class="mi">4</span><span class="p">,</span>    <span class="mi">5</span><span class="p">,</span>    <span class="mi">6</span><span class="p">,</span>    <span class="mi">7</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>\  <span class="o">-----</span><span class="n">minus</span> <span class="n">x</span>
+                      <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>    <span class="mi">3</span><span class="p">],</span>\     <span class="o">-----</span><span class="n">plus</span> <span class="n">x</span>
+                      <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>\     <span class="o">-----</span><span class="n">minus</span> <span class="n">y</span>
+                      <span class="p">[</span><span class="mi">1</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>    <span class="bp">None</span><span class="p">],</span>\  <span class="o">-----</span><span class="n">plus</span> <span class="n">y</span>
+                      <span class="p">[</span><span class="mi">2</span><span class="p">,</span>    <span class="mi">3</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span>    <span class="mi">7</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>\  <span class="o">-----</span><span class="n">minus</span> <span class="n">z</span>
+                      <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span>    <span class="mi">5</span><span class="p">]]}</span>     <span class="o">-----</span><span class="n">plus</span> <span class="n">z</span>
+    	
+</code></pre></div></div>
+
+<ul>
+  <li>Collision parameters</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">flavor</span><span class="p">:</span> 		
+		<span class="nb">all</span> <span class="n">possible</span> <span class="n">collisions</span> <span class="k">for</span> <span class="n">the</span> <span class="n">given</span> <span class="n">final</span> <span class="n">particle</span>
+        <span class="n">flavor</span> <span class="o">=</span> <span class="p">{</span><span class="s">'2TO2:, '</span><span class="mi">2</span><span class="n">TO3</span><span class="s">':, ;3TO2'</span><span class="p">:}</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">flavor</span><span class="p">[</span><span class="s">'2TO2'</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>    <span class="p">[</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">]],</span>
+                                     <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>    <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span>
+                                     <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>    <span class="p">[</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">]],</span>
+                                     <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>    <span class="p">[</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">]],</span>
+                                     <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>    <span class="p">[</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">]]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">int64</span><span class="p">)</span>
+<span class="n">collision_type</span><span class="p">:</span> 
+		<span class="n">an</span> <span class="n">index</span> <span class="n">indicate</span> <span class="n">which</span> <span class="n">collision</span> <span class="nb">type</span> <span class="n">the</span> <span class="n">process</span> <span class="n">belongs</span> <span class="n">to</span>
+        <span class="n">collision_type</span> <span class="o">=</span> <span class="p">{</span><span class="s">'2TO2:, '</span><span class="mi">2</span><span class="n">TO3</span><span class="s">':, ;3TO2'</span><span class="p">:}</span>
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">collision_type</span><span class="p">[</span><span class="s">'2TO3'</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">],</span>\
+                                             <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">],</span>\
+                                             <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">,</span><span class="mi">10001</span><span class="p">],</span>\
+                                             <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">10001</span><span class="p">],</span>\
+                                             <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]],</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">int64</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Other parameters</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hbar</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">lambdax</span><span class="p">,</span><span class="n">epsilon0</span><span class="p">:</span>
+		<span class="n">numerical</span> <span class="n">value</span> <span class="n">of</span> <span class="n">hbar</span><span class="p">,</span><span class="n">c</span><span class="p">,</span> <span class="n">lambdax</span> <span class="ow">and</span> <span class="n">epsilon0</span> <span class="ow">in</span> <span class="n">Flexible</span> <span class="n">Unit</span> <span class="p">(</span><span class="n">FU</span><span class="p">)</span>  
+        <span class="n">e</span><span class="p">.</span><span class="n">g</span><span class="p">.</span> <span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lambdax</span><span class="p">,</span> <span class="n">epsilon0</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.6</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">28</span><span class="p">,</span> <span class="mf">1.</span>
+</code></pre></div></div>
+
+<ul>
+  <li>This function mainly determines the type of input parameters and helps the user to check them. If there is an error in the input parameter type then an error statement will be provided.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">check_input_legacy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> \
+                       <span class="n">nx_o</span><span class="p">,</span> <span class="n">ny_o</span><span class="p">,</span> <span class="n">nz_o</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">boundary_configuration</span><span class="p">,</span> \
+                       <span class="n">x_left_bound_o</span><span class="p">,</span> <span class="n">y_left_bound_o</span><span class="p">,</span> <span class="n">z_left_bound_o</span><span class="p">,</span> \
+                       <span class="n">npx</span><span class="p">,</span> <span class="n">npy</span><span class="p">,</span> <span class="n">npz</span><span class="p">,</span> <span class="n">half_px</span><span class="p">,</span> <span class="n">half_py</span><span class="p">,</span> <span class="n">half_pz</span><span class="p">,</span>\
+                       <span class="n">masses</span><span class="p">,</span> <span class="n">charges</span><span class="p">,</span>\
+                       <span class="n">sub_region_relations</span><span class="p">,</span>\
+                       <span class="n">num_gpus_for_each_region</span><span class="p">,</span>\
+                       <span class="n">num_samples</span><span class="p">,</span>\
+                       <span class="n">flavor</span><span class="p">,</span> <span class="n">collision_type</span><span class="p">,</span> <span class="n">particle_type</span><span class="p">,</span>\
+                       <span class="n">degeneracy</span><span class="p">,</span> <span class="n">expected_collision_type</span><span class="p">):</span>
+</code></pre></div></div>
+
+:ET

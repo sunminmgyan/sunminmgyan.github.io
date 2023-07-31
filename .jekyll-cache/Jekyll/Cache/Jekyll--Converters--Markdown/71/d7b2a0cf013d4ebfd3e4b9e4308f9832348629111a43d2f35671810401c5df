@@ -1,0 +1,28 @@
+I"�<p>The <strong>RBG-Maxwell framework</strong> has been uploaded to the GitHub. Users can download the source code via <strong>git</strong>.</p>
+
+<pre><code class="language-github">git clone https://github.com/sunminmgyan/sunminmgyan.github.io.git
+</code></pre>
+
+<p><strong>RBG-Maxwell</strong> is written in <strong>python</strong>, so the user needs to ensure that the following packages are installed before running the program</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numba</span>   
+	<span class="o">----</span><span class="n">numba</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">JIT</span> <span class="n">compiler</span> <span class="n">that</span> <span class="n">can</span> <span class="nb">compile</span> <span class="n">python</span> <span class="n">functions</span> <span class="n">into</span> <span class="n">machine</span> <span class="n">code</span><span class="err">；</span>
+<span class="kn">import</span> <span class="nn">math</span><span class="p">;</span>    
+	<span class="o">----</span><span class="n">math</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">mathematical</span> <span class="n">functions</span> <span class="k">for</span> <span class="n">floating</span> <span class="n">point</span> <span class="n">numbers</span><span class="err">；</span>
+<span class="kn">import</span> <span class="nn">cupy</span><span class="p">;</span>   
+	<span class="o">----</span><span class="n">cupy</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">implementation</span> <span class="n">of</span> <span class="n">NumPy</span><span class="o">-</span><span class="n">compatible</span> <span class="n">multidimensional</span> <span class="n">arrays</span> <span class="n">on</span> <span class="n">CUDA</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">ray</span><span class="p">;</span>     
+	<span class="o">----</span><span class="n">Ray</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">distributed</span> <span class="n">execution</span> <span class="n">framework</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">random</span><span class="p">;</span>  
+	<span class="o">----</span><span class="n">random</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">standard</span> <span class="n">library</span> <span class="n">that</span> <span class="n">generates</span> <span class="n">random</span> <span class="n">numbers</span><span class="err">；</span>
+<span class="kn">import</span> <span class="nn">numpy</span><span class="p">;</span>  
+	<span class="o">----</span><span class="n">NumPy</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">base</span> <span class="n">package</span> <span class="k">for</span> <span class="n">scientific</span> <span class="n">computing</span> <span class="ow">in</span> <span class="n">Python</span><span class="err">；</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="p">;</span>      
+	<span class="o">----</span><span class="n">os</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">standard</span> <span class="n">library</span> <span class="k">for</span> <span class="n">accessing</span> <span class="n">operating</span> <span class="n">system</span> <span class="n">functions</span><span class="err">；</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">;</span>     
+	<span class="o">----</span><span class="n">sys</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">module</span> <span class="n">to</span> <span class="n">handle</span> <span class="n">the</span> <span class="n">python</span> <span class="n">runtime</span> <span class="n">environment</span><span class="err">。</span>
+</code></pre></div></div>
+
+<p>The structure of the RBG-Maxwell framework can be found at <a href="https://sunminmgyan.github.io/pages/2022-06-01-General-Structure/">General Structure</a></p>
+
+:ET

@@ -1,0 +1,18 @@
+I"(<h2 id="what-is-the-rgb-maxwell">What is the RGB-Maxwell?</h2>
+
+<p>RBG-Maxwell (<strong><font color="#dd0000">R</font></strong>elativistic <strong><font color="#0000dd">B</font></strong>oltzmann equation on <strong><font color="#00dd00">G</font></strong>PUs coupled with the <strong>Maxwell</strong>’s equations) is a general framework that simulates the (relativistic) collisional plasma systems in a fully consistent way on GPU clusters. Given the proper initial distributions of the relevant particles, RBG-Maxwell  is able to produce the subsequent states of the system.</p>
+
+<h2 id="what-can-rgb-maxwell-do">What can RGB-Maxwell do?</h2>
+
+<ul>
+  <li>Simulate the collision-less plasma systems with electrostatic/low frequency electromagnetic fields <a href="https://arxiv.org/abs/2209.07944">[arXiv:2209.07944]</a>.</li>
+  <li>Simulate the pre-equilibrium state of quark-gluon plasma in high energy heavy-ion collisions.</li>
+  <li>Simulate the solar plasma in collisions.</li>
+  <li>Simulate the collisional plasma involving quantum states or particle annihilation/production/ionization.</li>
+  <li>Mimic the evolution of of Quark-Gluon plasma <a href="https://arxiv.org/abs/1912.04457">[arXiv:1912.04457]</a>.</li>
+  <li>Study the collisional effect of plasma systems.</li>
+  <li>etc …</li>
+</ul>
+
+<p>、</p>
+:ET

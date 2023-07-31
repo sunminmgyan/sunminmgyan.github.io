@@ -1,0 +1,99 @@
+I"*<h1 id="this-procedure-primarily-discusses-the-unit-conversion-within-the-rbg-maxwell-framework"><strong>This procedure primarily discusses the unit conversion within the RBG-Maxwell framework.</strong></h1>
+
+<blockquote>
+  <p>For detailed information regarding the specific structure and content of the program, please refer to <a href="http://sunminmgyan.github.io/jekyll/2022-07-10-Conversion.html">Conversion</a></p>
+</blockquote>
+
+<ul>
+  <li>Firstly, import the required packages for the program:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">RBG_Maxwell.Unit_conversion.main</span> <span class="kn">import</span> <span class="n">determine_coefficient_for_unit_conversion</span><span class="p">,</span> <span class="n">unit_conversion</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Next, input the parameters to be converted.</p>
+
+    <p>Here, the parameters are given in units of the International System of Units (SI).</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dx</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">dz</span> <span class="o">=</span> <span class="mi">1000</span>
+
+<span class="c1"># velocity
+</span><span class="n">v_max</span> <span class="o">=</span> <span class="mf">1.8</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span>
+
+<span class="c1"># maximum momentum
+</span><span class="n">momentum</span> <span class="o">=</span> <span class="mf">1.674</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">19</span><span class="p">)</span>
+
+<span class="c1"># the momentum grid is set to be 
+# half_px=half_pz=half_py=momentum
+</span><span class="n">npx</span><span class="o">=</span><span class="n">npy</span><span class="o">=</span><span class="n">npz</span><span class="o">=</span><span class="mi">20</span>
+
+<span class="n">dpx</span> <span class="o">=</span> <span class="n">dpz</span> <span class="o">=</span> <span class="n">dpy</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">momentum</span><span class="o">/</span><span class="n">npy</span>
+<span class="n">dp_volume</span> <span class="o">=</span> <span class="n">dpx</span><span class="o">*</span><span class="n">dpy</span><span class="o">*</span><span class="n">dpz</span>
+<span class="n">dp</span> <span class="o">=</span> <span class="p">(</span><span class="n">dpx</span><span class="o">+</span><span class="n">dpy</span><span class="o">+</span><span class="n">dpz</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+
+<span class="c1"># time scale
+</span><span class="n">dt</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="c1"># number of maximum particles in each phase grid
+</span><span class="n">n_max</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">/</span><span class="p">(</span><span class="n">npx</span><span class="o">*</span><span class="n">npy</span><span class="o">*</span><span class="n">npz</span><span class="p">)</span>
+
+<span class="c1"># number of averaged particles in each spatial grid
+</span><span class="n">nx</span> <span class="o">=</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">nz</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">n_average</span> <span class="o">=</span> <span class="mi">10000</span><span class="o">/</span><span class="p">(</span><span class="n">nx</span><span class="o">*</span><span class="n">ny</span><span class="o">*</span><span class="n">nz</span><span class="p">)</span>
+
+<span class="n">E</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">masses</span> <span class="o">=</span> <span class="mf">9.3</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">26</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>To prevent the occurrence of excessively large values during the calculation process due to unit conversions, the program includes the “determine_coefficient_for_unit_conversion” function. This function ensures that the conversion process does not result in excessively large parameters. If the input parameters cannot be properly regulated to a lower level, the program will throw an error and suggest adjusting the input parameters.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lambdax</span><span class="p">,</span> <span class="n">epsilon0</span> <span class="o">=</span> <span class="n">determine_coefficient_for_unit_conversion</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dx</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span> <span class="n">dp</span><span class="p">,</span> <span class="n">dp_volume</span><span class="p">,</span><span class="n">n_max</span><span class="p">,</span> <span class="n">n_average</span><span class="p">,</span> <span class="n">v_max</span><span class="p">,</span> <span class="n">E</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">masses</span><span class="p">,</span> <span class="n">momentum</span> <span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Then, when the parameters <code class="language-plaintext highlighter-rouge">hbar</code>, <code class="language-plaintext highlighter-rouge">c</code>, <code class="language-plaintext highlighter-rouge">lambdax</code>, and <code class="language-plaintext highlighter-rouge">epsilon0</code> are obtained, the program calls a function to establish a unit conversion table.</li>
+  <li>Of course, users can also define the aforementioned parameters themselves and perform the unit conversion.</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">conversion_table</span> <span class="o">=</span> \
+<span class="n">unit_conversion</span><span class="p">(</span><span class="s">'SI_to_LHQCD'</span><span class="p">,</span> <span class="n">coef_J_to_E</span><span class="o">=</span><span class="n">lambdax</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">epsilon0</span><span class="o">=</span><span class="n">epsilon0</span><span class="p">)</span>
+
+<span class="n">conversion_table_reverse</span> <span class="o">=</span> \
+<span class="n">unit_conversion</span><span class="p">(</span><span class="s">'LHQCD_to_SI'</span><span class="p">,</span> <span class="n">coef_J_to_E</span><span class="o">=</span><span class="n">lambdax</span><span class="p">,</span> <span class="n">hbar</span><span class="o">=</span><span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">epsilon0</span><span class="o">=</span><span class="n">epsilon0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Finally, you can utilize the unit conversion table to perform unit conversions.</p>
+
+    <p>SI units -&gt; Free units</p>
+  </li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">meter_text</span> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'meter'</span><span class="p">]</span>
+<span class="n">masses_text</span> <span class="o">=</span> <span class="mf">9.3</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">26</span><span class="p">)</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'kilogram'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">meter_text</span> <span class="p">:</span> <span class="mf">47815189.40719678</span>
+<span class="n">masses_text</span> <span class="p">:</span> <span class="mf">2223415208.663215</span>
+</code></pre></div></div>
+
+<p>​		 Free units -&gt; SI units</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">meter_text</span> <span class="o">=</span> <span class="mf">47815189.40719678</span><span class="o">*</span><span class="n">conversion_table_reverse</span><span class="p">[</span><span class="s">'TO_meter'</span><span class="p">]</span>
+<span class="n">masses_text</span> <span class="o">=</span> <span class="mf">2223415208.663215</span><span class="o">*</span><span class="n">conversion_table_reverse</span><span class="p">[</span><span class="s">'TO_kilogram'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">meter_text</span> <span class="p">:</span> <span class="mi">200</span>
+<span class="n">masses_text</span> <span class="p">:</span> <span class="mf">9.3</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">26</span><span class="p">)</span>
+</code></pre></div></div>
+
+:ET
