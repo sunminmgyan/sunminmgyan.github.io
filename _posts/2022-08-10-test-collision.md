@@ -9,7 +9,7 @@ layout: post
 
 This procedure primarily discusses the computation of the collision term  within the RBG-Maxwell framework.
 
-> For detailed information regarding the specific structure and content of the program, please refer to [Collision term](http://127.0.0.1:4000/jekyll/2022-07-07-Collision.html)
+> For detailed information regarding the specific structure and content of the program, please refer to [Collision term](https://sunminmgyan.github.io/jekyll/2022-07-07-Collision.html)
 
 
 
