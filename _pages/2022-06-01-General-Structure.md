@@ -23,7 +23,7 @@ RBG-Maxwell is particularly suitable for calculating collisional plasmas with op
   - BM solver calculates collision terms using single particle distribution functions;
   - BM solver calculation the drift term using single particle distribution function and external electromagnetic force；
   - RBG-Maxwell combines the collision term, single-particle distribution function, and external electromagnetic force to calculate the single-particle distribution function for the next moment;
-  - The program completes the evolutionary process of the physical system by continuously iterating the above process.s
+  - The program completes the evolutionary process of the physical system by continuously iterating the above process.
 
 
 

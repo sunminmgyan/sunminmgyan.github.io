@@ -22,69 +22,102 @@ To ensure thermal equilibrium in the system, fermions follow the Fermi-Dirac dis
 ![distributions][distributiond1]
 
 ```python
-for i_type in range(len(particle_type)):
+length = len(degeneracy)
+    
+    # loop thorugh the particle types
+    for i_type in range(length):
+        
+        # take the minimum value of the distribution
+        f_min = cupy.amin(distribution[:,i_type])
+        
+        # if the distribution is smaller than zero, return False
+        # very small statistical negative distributiona are legal
+        if f_min < -10**(-19):
+            position = cupy.argmin(cupy.array(distribution[:,i_type]))
+            return 0,'f_min',f_min,i_type,position
 
-    # take the minimum value of the distribution
-    f_min = cupy.amin(distribution[:,i_type])
-
-    # if the distribution is smaller than zero, return False
-    if f_min < -10**(-15):
-        return False,'f_min',f_min,i_type
-
-    # for fermions we need to find the maximum value of the distributions as well
-    if particle_type[i_type] == 1:
-        f_max = cupy.amax(distribution[:,i_type])
-        # return False if the maximum value is larger than 1 for fermions
-        if f_max > 1.:
-            return False,'f_max',f_max,i_type
-
-	# if no issues are found, return True
-	return True,_,_,_
+        # for fermions we need to find the maximum value of the distributions as well
+        if particle_type[i_type] == 1:
+            f_max = cupy.amax(distribution[:,i_type])
+            # return False if the maximum value is larger than g*1/(2*math.pi*hbar)**3 for fermions
+            if f_max > degeneracy[i_type]*1/(2*math.pi*hbar)**3:
+                position = cupy.argmin(cupy.array(distribution[:,i_type]))
+                return 0,'f_max',f_max,i_type,position
+        
+    # if no issues are found, return True
+    return 1,0,0,0,0
 ```
 
 
 
-## update_f_single_GPU()
+## update_the_dt（）
 
-**The function primarily updates the single-particle distribution function over time.**
+To prevent users from encountering problems during the process of setting dt, the program will automatically adjust dt based on the simulation results.
 
-`f` : Represents the single-particle distribution function.
+If negative particle distribution occurs during the calculation process, the program will return to the distribution before time_stride_back and decrease dt.
 
-`pf_pt` : Represents the calculated result of the Vlasov term, Drift term, or collision term.
-
-`current_time_step` : Indicates the current time step.
-
-Using these parameters, the function updates the single-particle distribution function to account for changes over time.
+If there is no negative particle distribution in 100 time steps of the calculation, the program will increase dt to reduce computation time.
 
 ```python
-def update_f_single_GPU(f, pf_pt, dt, particle_type, current_time_step, \
-                        scale = 5, maximum_depth = 3, count = 0):
+self.change_index = self.change_index + 1
+if any(whether_terminate) == 0: 
+    self.change_index = 0
+    self.change_time(self.dt_upper_limit, self.dt_lower_limit, 0, 1)
+    print("Since the f < 0, we reduce dt. The dt is: ",self.global_dt)
+
+    self.back_to_previous = 1
+    del self.dt_list[-self.time_stride_back:]
+
+else:  #exchange bundaries when the distributions are legel 
+    self.back_to_previous = 0
+    # exchange the boundaries after evaluation
+    if self.number_regions > 1:
+        self.exchange_boundaries()
+
+    # exchange EM fields for Vlasov term
+    if processes['VT']>0.5:
+        self.exchange_EM_fields()   
+
+    if self.change_index == 100:
+        self.change_index = 0
+        self.change_time(self.dt_upper_limit, self.dt_lower_limit, 1, 0)
+        if abs(self.global_dt - self.dt_upper_limit) > 10**(-13):
+            print("We have increased dt to inhence performance. The dt is: ",self.global_dt)
         
-    # update the distribution f according to dt
-    fp = f + dt * pf_pt
-
-    # check if fp satisfies the creteria
-    # if the newly calculated distributions are incorrect, then decrease dt and recalculate till legal
-    trueOrfalse,illegal_type,value,which_species = check_legacy_of_distributions(fp, particle_type)
-
-    if trueOrfalse == False:
-
-        # print the current scale status
-        print('need to rescale at time step: ', current_time_step, '. The rescale depth is: ',\
-              count, ', with species: ', which_species, ', illegal_type: ', illegal_type, ' and value: ',value)
-
-        # return error if count is larger than maximum_depth
-        if count > maximum_depth+0.5:
-            raise AssertionError("The algorithm fails to give correct distribution with maximum_count = {}. Try increase maximum_count or choose a proper initial distribution.".format(maximum_depth)) 
-
-        # rescale dt and recalculate
-        dt = dt/scale
-        count+=1
-        fp, count, dt = update_f_single_GPU(f, pf_pt, dt, particle_type, current_time_step, \
-                                            scale, maximum_depth, count, digging = True)
-        
-    return fp, count, dt
+self.dt_list.append(self.global_dt)
 ```
+
+
+
+## change_time（）
+
+The program primarily changes the value of dt based on the input parameters. The input parameters for the program are as follows:
+
+up_line: Upper limit of dt; down_line: Lower limit of dt
+
+The variables "up" and "down" serve as indicators for whether dt should be increased or decreased. When up=1, it indicates that dt should be increased, and when down=1, it indicates that dt should be decreased.
+
+```python
+def change_time(self,up_line, down_line, up, down):    
+    if up == 1:
+        self.global_dt = self.global_dt*10
+    if down == 1:
+        self.global_dt = self.global_dt/10
+    if self.global_dt < down_line:
+        raise AssertionError("The dt has reached the lower limit! Try use different configuration, e.g. d_sigma")
+    if self.global_dt > up_line:
+        self.global_dt = self.global_dt/10
+```
+
+
+
+
+
+
+
+
+
+
 
 
 

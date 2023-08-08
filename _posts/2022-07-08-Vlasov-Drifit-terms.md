@@ -1,11 +1,14 @@
 ---
-
 title: Vlasov_Drifit_terms
 author: Mingyan Sun
 date: 2022-07-08
 category: Jekyll
 layout: post
 ---
+
+
+
+
 
 **The program primarily leverages the difference to compute the Drift term.**
 

@@ -1,13 +1,13 @@
 ---
-title: Test Vlasov Drifit term
+title: Test large scale plasma term
 author: Mingyan Sun 
-date: 2022-08-06
+date: 2022-08-09
 layout: post
 ---
 
 
 
-# **This procedure primarily discusses the computation of the Vlasov term and the Drift term  within the RBG-Maxwell framework.**
+This procedure primarily discusses the computation of the Vlasov term and the Drift term  within the RBG-Maxwell framework.
 
 > For detailed information regarding the specific structure and content of the program, please refer to [Vlasov_Drifit_terms](http://sunminmgyan.github.io/jekyll/2022-07-08-Vlasov-Drifit-terms.html)
 

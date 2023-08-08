@@ -1,12 +1,14 @@
 ---
-title: Test-Conversion
+title: Test Conversion
 author: Mingyan Sun 
 date: 2022-08-05
 layout: post
 
 ---
 
-# **This procedure primarily discusses the unit conversion within the RBG-Maxwell framework.**
+
+
+This procedure primarily discusses the unit conversion within the RBG-Maxwell framework.
 
 > For detailed information regarding the specific structure and content of the program, please refer to [Conversion](http://sunminmgyan.github.io/jekyll/2022-07-10-Conversion.html)
 

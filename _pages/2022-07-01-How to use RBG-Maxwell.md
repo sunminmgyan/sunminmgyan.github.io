@@ -11,15 +11,11 @@ layout: post
 
 ## RBG-Maxwell  ![RBG-Maxwell](https://img.shields.io/badge/RBG--Maxwell-v1.0-red)  ![CUDA: v10.0 (shields.io)](https://img.shields.io/badge/CUDA-v10.0-blue)  ![Ray: v1.0 (shields.io)](https://img.shields.io/badge/Ray-v1.0-green)  ![Plasma: simulation (shields.io)](https://img.shields.io/badge/Plasma-simulation-green)
 
-### 1、Installation
-
-​	Initially, it is imperative to verify the successful installation of the RBG-Maxwell framework and its associated packages by the user prior to utilization. In the event that the installation of RBG-Maxwell encounters a failure, kindly consult the " [Installation](https://sunminmgyan.github.io/pages/2022-04-01-Installation/)" section for further guidance.
-
-### 2、Usage via an example
+### 1、Usage via an example
 
 ​	**The following codes demonstrate an example of how to use RBG-Maxwell.**
 
-#### 2.1、 Set the initial conditions
+#### 1.1、 Set the initial conditions
 
 - 1、First, we need to invoke the following package：
 
@@ -226,7 +222,7 @@ plasma = Plasma(f, dt, \
                 rho_J_method="raw", GPU_ids_for_each_region = ["9"])
 ```
 
-#### 2.2、System evolution and results output
+#### 1.2、System evolution and results output
 
 - Set the time step and perform the plasma system evolution.
 

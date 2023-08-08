@@ -140,7 +140,7 @@
                             </a>
                             
                                 
-                                    <ul><li><a href="#the-advantages-of-the-program">The advantages of the program</a></li><li><a href="#the-structure-of-the-program">The structure of the program</a><ul><li><a href="#collision_type_for_all_species">collision_type_for_all_species（）</a></li><li><a href="#plasma">Plasma（）</a></li><li><a href="#plasma_single_gpu">plasma_single_GPU（）</a></li><li><a href="#emsolver">EMsolver()</a></li></ul></li><li><a href="#mainthe-main-part-of-the-program">Main()——The main part of the program</a><ul><li><a href="#proceed_one_stepplasma">proceed_one_step（）——Plasma</a></li><li><a href="#proceed_one_stepplasma_single_gpu">proceed_one_step（）——Plasma_Single_GPU</a></li><li><a href="#pf_pt">PF_PT（）</a></li><li><a href="#rho_j_to_eb">rho_J_to_EB（）</a></li><li><a href="#external_forces">external_forces（）</a></li><li><a href="#collision">Collision()</a></li><li><a href="#vlasov_drift">Vlasov_Drift()</a></li><li><a href="#update_f_single_gpu">update_f_single_GPU()</a></li><li><a href="#acquire_values">acquire_values()</a></li></ul></li></ul>
+                                    <ul><li><a href="#the-advantages-of-the-program">The advantages of the program</a></li><li><a href="#the-structure-of-the-program">The structure of the program</a><ul><li><a href="#collision_type_for_all_species">collision_type_for_all_species（）</a></li><li><a href="#plasma">Plasma（）</a></li><li><a href="#plasma_single_gpu">plasma_single_GPU（）</a></li><li><a href="#emsolver">EMsolver()</a></li></ul></li><li><a href="#mainthe-main-part-of-the-program">Main()——The main part of the program</a><ul><li><a href="#proceed_one_stepplasma">proceed_one_step（）——Plasma</a></li><li><a href="#proceed_one_stepplasma_single_gpu">proceed_one_step（）——Plasma_Single_GPU</a></li><li><a href="#pf_pt">PF_PT（）</a></li><li><a href="#rho_j_to_eb">rho_J_to_EB（）</a></li><li><a href="#external_forces">external_forces（）</a></li><li><a href="#collision">Collision()</a></li><li><a href="#vlasov_drift">Vlasov_Drift()</a></li><li><a href="#acquire_values">acquire_values()</a></li></ul></li></ul>
 
                                 
                             
@@ -194,7 +194,7 @@
                         <li class="chapter" data-level="1.1" data-path="/jekyll/2022-07-10-Conversion.html">
                         
                             <a href="/jekyll/2022-07-10-Conversion.html">
-                                Conversion
+                                Unit_Conversion
                             </a>
                             
                                 
@@ -249,7 +249,7 @@
                         <li class="chapter" data-level="1.1" data-path="/2022-08-05-test-conversion.html">
                         
                             <a href="/2022-08-05-test-conversion.html">
-                                Test-Conversion
+                                Test Conversion
                             </a>
                             
                                 
@@ -257,10 +257,43 @@
                         </li>
                     
                         
-                        <li class="chapter" data-level="1.1" data-path="/2022-08-06-test-vlasov-drifit-term.html">
+                        <li class="chapter" data-level="1.1" data-path="/2022-08-07-test-pure-electron-plasma.html">
                         
-                            <a href="/2022-08-06-test-vlasov-drifit-term.html">
-                                Test Vlasov Drifit term
+                            <a href="/2022-08-07-test-pure-electron-plasma.html">
+                                Test pure electron plasma
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/2022-08-08-test-circle-pure-electron-plasma.html">
+                        
+                            <a href="/2022-08-08-test-circle-pure-electron-plasma.html">
+                                Test circle pure electron plasma
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/2022-08-09-test-large-scale-plasma-term.html">
+                        
+                            <a href="/2022-08-09-test-large-scale-plasma-term.html">
+                                Test large scale plasma term
+                            </a>
+                            
+                                
+                            
+                        </li>
+                    
+                        
+                        <li class="chapter" data-level="1.1" data-path="/2022-08-10-test-collision.html">
+                        
+                            <a href="/2022-08-10-test-collision.html">
+                                Test collision
                             </a>
                             
                                 
@@ -801,30 +834,19 @@ CT----Collision()
                                 <span class="bp">self</span><span class="p">.</span><span class="n">CT</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">c</span><span class="p">,</span> <span class="n">current_time_step</span><span class="p">,</span> \
                                 <span class="n">processes</span><span class="p">[</span><span class="s">'DT'</span><span class="p">],</span> <span class="n">processes</span><span class="p">[</span><span class="s">'VT'</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">drift_order</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">current_time_step</span><span class="o">%</span><span class="mi">100</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
-        <span class="c1"># check is the obtained self.fp is legal.
-</span>        <span class="n">whether_legal</span><span class="p">,</span> <span class="n">illegal_type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">which_species</span> <span class="o">=</span> <span class="n">check_legacy_of_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">particle_type</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">hbar</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">degeneracy</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">whether_legal</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">AssertionError</span><span class="p">(</span><span class="s">"The algorithm fails to give correct distribution since species {} has got a wrong value {} = {}  . Try to decrease dt, or choose a proper and smooth initial distribution."</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">which_species</span><span class="p">,</span> <span class="n">illegal_type</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span> 
-            <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">current_time_step</span><span class="o">%</span><span class="n">time_stride_back</span><span class="o">==</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">current_time_step</span> <span class="o">!=</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="c1"># check is the obtained self.fp is legal.
+</span>        <span class="n">whether_legal</span><span class="p">,</span> <span class="n">illegal_type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">which_species</span><span class="p">,</span> <span class="n">which_position</span> <span class="o">=</span> <span class="n">check_legacy_of_distributions</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">particle_type</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">hbar</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dt</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">degeneracy</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">whether_legal</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">last_f</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">f</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">f</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">last_f</span>  
+            <span class="k">return</span> <span class="mi">0</span>        
+    <span class="k">return</span> <span class="mi">1</span>
 </code></pre></div></div>
 
 <blockquote>
   <p>For a specific and detailed description, please refer to <a href="http://sunminmgyan.github.io/jekyll/2022-07-08-Vlasov-Drifit-terms.html">Vlasov_Drifit_terms</a>, where the function is thoroughly explained.</p>
-</blockquote>
-
-<h3 id="update_f_single_gpu">update_f_single_GPU()</h3>
-
-<p><strong>This function mainly accomplishes the updating of the single-particle distribution function over time</strong></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">self</span><span class="p">.</span><span class="n">fp</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">update_f_single_GPU</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">pf_pt</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dt</span><span class="p">,</span> \
-                                         <span class="n">current_time_step</span><span class="p">,</span><span class="n">scale</span><span class="p">,</span> <span class="n">maximum_depth</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>For a specific and detailed description, please refer to <a href="http://sunminmgyan.github.io/jekyll/2022-07-11-Straitified-time-update.html">update_f_single_GPU()</a>, where the function is thoroughly explained.</p>
 </blockquote>
 
 <h3 id="acquire_values">acquire_values()</h3>
@@ -1011,7 +1033,7 @@ MathJax = {
     },
     "gitbook": {
         "version": "3.2.3",
-        "time": "2023-07-31 19:59:16 +0800"
+        "time": "2023-08-08 13:59:50 +0800"
     },
     "basePath": "",
     "book": {
