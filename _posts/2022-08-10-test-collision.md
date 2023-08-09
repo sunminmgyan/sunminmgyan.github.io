@@ -56,7 +56,8 @@ dpx, dpy, dpz = 2*abs(px_left_bound)/px_grid_size,2*abs(py_left_bound)/py_grid_s
 
 # dt is set the same for both BEsolver and EMsolver
 dt = 0.00025/0.197 # GeV^-1
-
+dt_upper_limit = float(0.00025/0.197/1000)
+dt_lower_limit = float(0.00025/0.197*1000)
 # The regions for EM calculations are seperated as the source region and the observation region
 # In the current example, these regions aree the same as the BEsolver
 x_left_boundary_o, y_left_boundary_o, z_left_boundary_o = x_left_bound, y_left_bound, z_left_bound
@@ -87,7 +88,7 @@ npx, npy, npz = px_grid_size, py_grid_size, pz_grid_size
 # momentum range for x and z direction are not import in this case
 half_px, half_py, half_pz = np.array([-px_left_bound]*2), \
 np.array([-py_left_bound]*2), np.array([-pz_left_bound]*2)
-
+par_list=[m1**2*c**2, m2**2*c**2, (2*math.pi*hbar)**3, hbar**2*c, d_sigma/(hbar**2)]
 # load the collision matrix
 flavor, collision_type, particle_order = collision_type_for_all_species()
 expected_collision_type = ['2TO2']
@@ -232,18 +233,22 @@ for i_reg in range(number_regions):
 - Initiate the RBG-Maxwell framework.
 
 ```python
-plasma = Plasma(f, dt, \
+BEx, BEy, BEz, BBx, BBy, BBz = [0],[0],[0],[0],[0],[0]
+
+plasma = Plasma(f,par_list, dt, dt_lower_limit, dt_upper_limit,\
                 nx_o, ny_o, nz_o, dx, dy, dz, boundary_configuration, \
                 x_left_bound_o, y_left_bound_o, z_left_bound_o, \
-                npx, npy, npz, half_px, half_py, half_pz,\
+                int(npx[0]), int(npy[0]), int(npz[0]), half_px, half_py, half_pz,\
                 masses, charges, sub_region_relations,\
                 flavor, collision_type, particle_type,\
                 degeneracy, expected_collision_type,\
                 num_gpus_for_each_region,\
-                hbar, c, lambdax, epsilon0, \
-                num_samples = 100, drift_order = 1,\
+                hbar, c, lambdax, epsilon0, time_stride_back,\
+                num_samples = 100, drift_order = 2,\
                 rho_J_method="raw", GPU_ids_for_each_region = ["1"])
 ```
+
+
 
 - Initiate the iterative calculation, where `n_step` represents the number of steps for time iteration, and `CT`  indicate whether or not to compute the collision term (1 represents computation, 0 represents no computation).
 

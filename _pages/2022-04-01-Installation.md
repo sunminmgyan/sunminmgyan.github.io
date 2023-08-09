@@ -7,12 +7,6 @@ layout: post
 
 
 
-The **RBG-Maxwell framework** has been uploaded to the GitHub. Users can download the source code via **git**.
-
-```github
-git clone https://github.com/sunminmgyan/sunminmgyan.github.io.git
-```
-
 **RBG-Maxwell** is written in **python**, so the user needs to ensure that the following packages are installed before running the program
 
 ```python

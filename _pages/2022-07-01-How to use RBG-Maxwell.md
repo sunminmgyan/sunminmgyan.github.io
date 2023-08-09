@@ -94,6 +94,8 @@ dt, dx, dy, dz = 10**(-13)*conversion_table['second'], \
                  10**(-5)*conversion_table['meter'], \
                  10**(-5)*conversion_table['meter'], \
                  10**(-5)*conversion_table['meter']
+dt_upper_limit = float(10**(-1)*conversion_table['second'])
+dt_lower_limit = float(10**(-9)*conversion_table['second'])
 
 # we have only one type of particle e-
 num_particle_species = 1
@@ -114,6 +116,9 @@ npx, npy, npz = 1, 201, 1
 half_px, half_py, half_pz = np.array([9.11*10**(-31)*5*10**6*conversion_table['momentum']]), \
                             np.array([9.11*10**(-31)*5*10**6*conversion_table['momentum']]),\
                             np.array([9.11*10**(-31)*5*10**6*conversion_table['momentum']])
+
+par_list=[m1**2*c**2, m2**2*c**2, (2*math.pi*hbar)**3, hbar**2*c, d_sigma/(hbar**2)]
+
 
 dpx, dpy, dpz = 2*half_px/npx, 2*half_py/npy, 2*half_pz/npz
 
@@ -209,17 +214,17 @@ We add an external magnetic field of 10 T in the +y direction
 BBy = [10*conversion_table['Tesla']*np.ones(nx_o[0]*ny_o[0]*nz_o[0])]
 BEx, BEy, BEz, BBx, BBz = [0],[0],[0],[0],[0]
 
-plasma = Plasma(f, dt, \
+plasma = Plasma(f,par_list, dt, dt_lower_limit, dt_upper_limit,\
                 nx_o, ny_o, nz_o, dx, dy, dz, boundary_configuration, \
                 x_left_bound_o, y_left_bound_o, z_left_bound_o, \
-                npx, npy, npz, half_px, half_py, half_pz,\
+                int(npx[0]), int(npy[0]), int(npz[0]), half_px, half_py, half_pz,\
                 masses, charges, sub_region_relations,\
                 flavor, collision_type, particle_type,\
                 degeneracy, expected_collision_type,\
                 num_gpus_for_each_region,\
-                hbar, c, lambdax, epsilon0, \
+                hbar, c, lambdax, epsilon0, time_stride_back,\
                 num_samples = 100, drift_order = 2,\
-                rho_J_method="raw", GPU_ids_for_each_region = ["9"])
+                rho_J_method="raw", GPU_ids_for_each_region = ["1"])
 ```
 
 #### 1.2、System evolution and results output

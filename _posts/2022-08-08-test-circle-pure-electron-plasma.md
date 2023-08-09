@@ -1,5 +1,5 @@
 ---
-title: Test circle pure electron plasma
+title: Test point expansion of pure electron plasma
 author: Mingyan Sun 
 date: 2022-08-08
 layout: post
@@ -108,6 +108,8 @@ dt, dx, dy, dz = dt*conversion_table['second'], \
                  dy*conversion_table['meter'], \
                  dz*conversion_table['meter']
 
+dt_upper_limit = float(10**(-1)*conversion_table['second'])
+dt_lower_limit = float(10**(-9)*conversion_table['second'])
 # we have only one type of particle e-
 num_particle_species = 1
 
@@ -129,6 +131,7 @@ half_px, half_py, half_pz = np.array([9.11*10**(-31)*v_max*conversion_table['mom
                             np.array([9.11*10**(-31)*v_max*conversion_table['momentum']])
 
 dpx, dpy, dpz = 2*half_px/npx, 2*half_py/npy, 2*half_pz/npz
+par_list=[m1**2*c**2, m2**2*c**2, (2*math.pi*hbar)**3, hbar**2*c, d_sigma/(hbar**2)]
 
 # load the collision matrix
 flavor, collision_type, particle_order = collision_type_for_all_species()
@@ -267,15 +270,15 @@ The schematic diagram below illustrates the initial position distribution of the
 ```python
 BEx, BEy, BEz, BBx, BBy, BBz = [0],[0],[0],[0],[0],[0]
 
-plasma = Plasma(f, dt, \
+plasma = Plasma(f,par_list, dt, dt_lower_limit, dt_upper_limit,\
                 nx_o, ny_o, nz_o, dx, dy, dz, boundary_configuration, \
                 x_left_bound_o, y_left_bound_o, z_left_bound_o, \
-                npx, npy, npz, half_px, half_py, half_pz,\
+                int(npx[0]), int(npy[0]), int(npz[0]), half_px, half_py, half_pz,\
                 masses, charges, sub_region_relations,\
                 flavor, collision_type, particle_type,\
                 degeneracy, expected_collision_type,\
                 num_gpus_for_each_region,\
-                hbar, c, lambdax, epsilon0, \
+                hbar, c, lambdax, epsilon0, time_stride_back,\
                 num_samples = 100, drift_order = 2,\
                 rho_J_method="raw", GPU_ids_for_each_region = ["1"])
 ```

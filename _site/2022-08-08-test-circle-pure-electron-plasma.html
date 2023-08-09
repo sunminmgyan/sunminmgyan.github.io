@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en" >
     <head><meta charset="UTF-8">
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><title>Test circle pure electron plasma · RGB-Maxwell</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type"><title>Test point expansion of pure electron plasma · RGB-Maxwell</title><meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="description" content="The introduce of the programe RGB-Maxwell.
 "><meta name="generator" content="Jekyll (using style of GitBook 3.2.3)"><meta name="author" content="Junjie Zhang"><link rel="stylesheet" href="/assets/gitbook/style.css">
 <link rel="stylesheet" href="/assets/gitbook/gitbook-plugin-fontsettings/website.css">
@@ -268,7 +268,7 @@
                         <li class="chapter active" data-level="1.2" data-path="/2022-08-08-test-circle-pure-electron-plasma.html">
                         
                             <a href="/2022-08-08-test-circle-pure-electron-plasma.html">
-                                Test circle pure electron plasma
+                                Test point expansion of pure electron plasma
                             </a>
                             
                                 
@@ -321,7 +321,7 @@
                     <h1>
                         <i class="fa fa-circle-o-notch fa-spin"></i>
                         
-                            <a href="." >Test circle pure electron plasma</a>
+                            <a href="." >Test point expansion of pure electron plasma</a>
                         
                     </h1>
                 </div>
@@ -334,7 +334,7 @@
             <div class="search-noresults">
                 <section class="normal markdown-section">
                     
-                        <h1 id="/test-circle-pure-electron-plasma">Test circle pure electron plasma</h1>
+                        <h1 id="/test-circle-pure-electron-plasma">Test point expansion of pure electron plasma</h1>
                     
 
                     <p>This  example is primarily designed to simulate the drifting process of a circle pure electron plasma in the YOZ plane.</p>
@@ -424,7 +424,7 @@
     <p>Perform conversions between the International System of Units (SI) and Natural units based on the given parameters.</p>
 
     <blockquote>
-      <p>The specific content of the program can be referred to in <a href="http://127.0.0.1:4000/jekyll/2022-07-10-Conversion.html">Unit_Conversion</a>. In addition, we have provided an example to help users better understand the unit conversion program, <a href="http://127.0.0.1:4000/2022-08-05-test-conversion.html">Test-Conversion</a>.</p>
+      <p>The specific content of the program can be referred to in <a href="https://sunminmgyan.github.io/jekyll/2022-07-10-Conversion.html">Unit_Conversion</a>. In addition, we have provided an example to help users better understand the unit conversion program, <a href="https://sunminmgyan.github.io/2022-08-05-test-conversion.html">Test-Conversion</a>.</p>
     </blockquote>
   </li>
 </ul>
@@ -446,6 +446,8 @@
                  <span class="n">dy</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'meter'</span><span class="p">],</span> \
                  <span class="n">dz</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'meter'</span><span class="p">]</span>
 
+<span class="n">dt_upper_limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'second'</span><span class="p">])</span>
+<span class="n">dt_lower_limit</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'second'</span><span class="p">])</span>
 <span class="c1"># we have only one type of particle e-
 </span><span class="n">num_particle_species</span> <span class="o">=</span> <span class="mi">1</span>
 
@@ -467,6 +469,7 @@
                             <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mf">9.11</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">31</span><span class="p">)</span><span class="o">*</span><span class="n">v_max</span><span class="o">*</span><span class="n">conversion_table</span><span class="p">[</span><span class="s">'momentum'</span><span class="p">]])</span>
 
 <span class="n">dpx</span><span class="p">,</span> <span class="n">dpy</span><span class="p">,</span> <span class="n">dpz</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">half_px</span><span class="o">/</span><span class="n">npx</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">half_py</span><span class="o">/</span><span class="n">npy</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">half_pz</span><span class="o">/</span><span class="n">npz</span>
+<span class="n">par_list</span><span class="o">=</span><span class="p">[</span><span class="n">m1</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">m2</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">math</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="n">hbar</span><span class="p">)</span><span class="o">**</span><span class="mi">3</span><span class="p">,</span> <span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="n">d_sigma</span><span class="o">/</span><span class="p">(</span><span class="n">hbar</span><span class="o">**</span><span class="mi">2</span><span class="p">)]</span>
 
 <span class="c1"># load the collision matrix
 </span><span class="n">flavor</span><span class="p">,</span> <span class="n">collision_type</span><span class="p">,</span> <span class="n">particle_order</span> <span class="o">=</span> <span class="n">collision_type_for_all_species</span><span class="p">()</span>
@@ -608,15 +611,15 @@
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BEx</span><span class="p">,</span> <span class="n">BEy</span><span class="p">,</span> <span class="n">BEz</span><span class="p">,</span> <span class="n">BBx</span><span class="p">,</span> <span class="n">BBy</span><span class="p">,</span> <span class="n">BBz</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="n">plasma</span> <span class="o">=</span> <span class="n">Plasma</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> \
+<span class="n">plasma</span> <span class="o">=</span> <span class="n">Plasma</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">par_list</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">dt_lower_limit</span><span class="p">,</span> <span class="n">dt_upper_limit</span><span class="p">,</span>\
                 <span class="n">nx_o</span><span class="p">,</span> <span class="n">ny_o</span><span class="p">,</span> <span class="n">nz_o</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">boundary_configuration</span><span class="p">,</span> \
                 <span class="n">x_left_bound_o</span><span class="p">,</span> <span class="n">y_left_bound_o</span><span class="p">,</span> <span class="n">z_left_bound_o</span><span class="p">,</span> \
-                <span class="n">npx</span><span class="p">,</span> <span class="n">npy</span><span class="p">,</span> <span class="n">npz</span><span class="p">,</span> <span class="n">half_px</span><span class="p">,</span> <span class="n">half_py</span><span class="p">,</span> <span class="n">half_pz</span><span class="p">,</span>\
+                <span class="nb">int</span><span class="p">(</span><span class="n">npx</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">npy</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">npz</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">half_px</span><span class="p">,</span> <span class="n">half_py</span><span class="p">,</span> <span class="n">half_pz</span><span class="p">,</span>\
                 <span class="n">masses</span><span class="p">,</span> <span class="n">charges</span><span class="p">,</span> <span class="n">sub_region_relations</span><span class="p">,</span>\
                 <span class="n">flavor</span><span class="p">,</span> <span class="n">collision_type</span><span class="p">,</span> <span class="n">particle_type</span><span class="p">,</span>\
                 <span class="n">degeneracy</span><span class="p">,</span> <span class="n">expected_collision_type</span><span class="p">,</span>\
                 <span class="n">num_gpus_for_each_region</span><span class="p">,</span>\
-                <span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lambdax</span><span class="p">,</span> <span class="n">epsilon0</span><span class="p">,</span> \
+                <span class="n">hbar</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">lambdax</span><span class="p">,</span> <span class="n">epsilon0</span><span class="p">,</span> <span class="n">time_stride_back</span><span class="p">,</span>\
                 <span class="n">num_samples</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">drift_order</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>\
                 <span class="n">rho_J_method</span><span class="o">=</span><span class="s">"raw"</span><span class="p">,</span> <span class="n">GPU_ids_for_each_region</span> <span class="o">=</span> <span class="p">[</span><span class="s">"1"</span><span class="p">])</span>
 </code></pre></div></div>
@@ -807,7 +810,7 @@ MathJax = {
     },
     "gitbook": {
         "version": "3.2.3",
-        "time": "2023-08-08 13:59:50 +0800"
+        "time": "2023-08-09 15:17:55 +0800"
     },
     "basePath": "",
     "book": {
